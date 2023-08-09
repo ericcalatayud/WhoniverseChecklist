@@ -76,7 +76,7 @@ async function checkLoginStatus() {
 
 async function getWatchedEpisodes() {
     try {
-        const response = await fetch('whoniverse-checklist.onrender.com/api/episodes_watched', {
+        const response = await fetch('https://whoniverse-checklist.onrender.com/api/episodes_watched', {
             credentials: 'include'
         });
         return await response.json();
