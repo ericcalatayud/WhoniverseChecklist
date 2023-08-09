@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Whoniverse Checklist - Sign up</title>
+    <link rel="stylesheet" href="static\styles.css">
+</head>
+<body>
+    <header>
+        <h1 class="head">&#x2728; Whoniverse Checklist &#x2728;</h1>
+    </header>
+
+    <div class="Frm">
+        <form action="/signup" method="post" class="form" id="registerForm" onsubmit="return validateSignupForm()">
+            <h1 class="title">Sign up</h1>
+    
+            <div class="inputContainer">
+                <input type="email" class="input" name="email">
+                <label for="email" class="label">Email</label>
+            </div>
+    
+            <div class="inputContainer">
+                <input type="text" class="input" name="username">
+                <label for="username" class="label">Username</label>
+            </div>
+    
+            <div class="inputContainer">
+                <input type="password" class="input" name="password">
+                <label for="password" class="label">Password</label>
+            </div>
+    
+            <div class="inputContainer">
+                <input type="password" class="input" name="confirmPassword">
+                <label for="confirmPassword" class="label">Confirm Password</label>
+            </div>
+
+            <div id="message"></div>
+    
+            <input type="submit" class="submitBtn" value="Sign up">
+
+            <p>Already have an account? <a href={{ url_for('login') }}>Log in</a></p>
+
+            <div class="error-message">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'danger' %}
+                                <p>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div> 
+        </form>
+    </div>
+
+    <script src="static/validation.js"></script>
+</body>
+</html>

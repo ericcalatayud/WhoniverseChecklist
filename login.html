@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Whoniverse Checklist - Log in</title>
+    <link rel="stylesheet" href="static\styles.css">
+</head>
+<body>
+    <header>
+        <h2 class="head">&#x2728; Whoniverse Checklist &#x2728;</h2>
+    </header>
+    
+    <div class="main">
+        <div class="Frm">
+            <form action="/login" method="post" class="form" id="loginForm" onsubmit="return validateLoginForm()">
+                <h1 class="title">Log in</h1>
+        
+                <div class="inputContainer">
+                    <input type="text" class="input" name="username_email">
+                    <label for="username_email" class="label">Username or Email</label>
+                </div>
+        
+                <div class="inputContainer">
+                    <input type="password" class="input" name="password">
+                    <label for="password" class="label">Password</label>
+                </div>
+
+                <div class="error-message">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category == 'danger' %}
+                                    <p>{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>                
+        
+                <input type="submit" class="submitBtn" value="Log in">
+
+                <p>Don't have an account? <a href={{ url_for('signup') }}>Sign up</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="static/validation.js"></script>
+  
+</body>
+</html>
