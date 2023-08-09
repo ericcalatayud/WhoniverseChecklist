@@ -24,23 +24,28 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-print(f"Connecting to {connection_string}")
-print(f"Engine Details: {engine}")
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id_category = Column(Integer, primary_key=True)
+    category = Column(String(255), nullable=False)
 
+class Option(db.Model):
+    __tablename__ = 'options'
+    id_option = Column(Integer, primary_key=True)
+    option = Column(String(255), nullable=False)
+    id_category = Column(Integer, ForeignKey('categories.id_category'), nullable=False)
 
-categories_df = pd.read_csv('lists/categories.csv', delimiter=';')
-print(categories_df.head())
+class Season(db.Model):
+    __tablename__ = 'seasons'
+    id_season = Column(Integer, primary_key=True)
+    season = Column(String(255), nullable=False)
+    id_option = Column(Integer, ForeignKey('options.id_option'), nullable=False)
 
-categories_df.to_sql('categories', engine, if_exists='replace')
-
-options_df = pd.read_csv('lists/options.csv', delimiter=';')
-options_df.to_sql('options', engine, if_exists='replace')
-
-seasons_df = pd.read_csv('lists/seasons.csv', delimiter=';')
-seasons_df.to_sql('seasons', engine, if_exists='replace')
-
-episodes_df = pd.read_csv('lists/episodes.csv', delimiter=';')
-episodes_df.to_sql('episodes', engine, if_exists='replace')
+class Episode(db.Model):
+    __tablename__ = 'episodes'
+    id_episode = Column(String(25), primary_key=True)
+    episode = Column(String(255), nullable=False)
+    id_season = Column(Integer, ForeignKey('seasons.id_season'), nullable=False)
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -52,6 +57,16 @@ class EpisodesWatched(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     id_episode = db.Column(db.String(25), nullable=False)
+
+import csv
+
+def load_csv_to_db(filename, model):
+    with open(filename, newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            record = model(**row)
+            db.session.add(record)
+        db.session.commit()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -168,4 +183,10 @@ def unmark_episode_watched():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+        
+        load_csv_to_db('lists/categories.csv', Category)
+        load_csv_to_db('lists/options.csv', Option)
+        load_csv_to_db('lists/seasons.csv', Season)
+        load_csv_to_db('lists/episodes.csv', Episode)
+        
+        app.run(debug=True)
