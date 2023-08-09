@@ -25,16 +25,16 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 categories_df = pd.read_csv('lists/categories.csv', delimiter=';')
-categories_df.to_sql('categories', engine, if_exists='replace')
+categories_df.to_sql('categories', engine, if_exists='replace', schema=None)
 
 options_df = pd.read_csv('lists/options.csv', delimiter=';')
-options_df.to_sql('options', engine, if_exists='replace')
+options_df.to_sql('options', engine, if_exists='replace', schema=None)
 
 seasons_df = pd.read_csv('lists/seasons.csv', delimiter=';')
-seasons_df.to_sql('seasons', engine, if_exists='replace')
+seasons_df.to_sql('seasons', engine, if_exists='replace', schema=None)
 
 episodes_df = pd.read_csv('lists/episodes.csv', delimiter=';')
-episodes_df.to_sql('episodes', engine, if_exists='replace')
+episodes_df.to_sql('episodes', engine, if_exists='replace', schema=None)
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
