@@ -7,21 +7,22 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 
-db_host = os.getenv('DB_HOST')
-db_user = os.getenv('DB_USER')
-db_password = os.getenv('DB_PASSWORD')
-db_name = os.getenv('DB_NAME')
+db_host = os.getenv('DB_HOST', '34.175.107.217')
+db_user = os.getenv('DB_USER', 'ua3f8sxgh5ouk')
+db_password = os.getenv('DB_PASSWORD', 'nanoerik00who')
+db_name = os.getenv('DB_NAME', 'db7wbjghd927hc')
 
 app = Flask(__name__)
 app.secret_key = '¿9.12del22#'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://ua3f8sxgh5ouk:nanoerik00who@34.175.107.217/db7wbjghd927hc'
+connection_string = f'mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}'
+app.config['SQLALCHEMY_DATABASE_URI'] = connection_string
+engine = create_engine(connection_string, pool_pre_ping=True)
+
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 db = SQLAlchemy(app)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-
-engine = create_engine('mysql+pymysql://ua3f8sxgh5ouk:nanoerik00who@34.175.107.217/db7wbjghd927hc', pool_pre_ping=True)
 
 categories_df = pd.read_csv('lists/categories.csv', delimiter=';')
 categories_df.to_sql('categories', engine, if_exists='replace')
