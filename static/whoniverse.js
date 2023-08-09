@@ -1,22 +1,22 @@
 document.getElementById("column1").addEventListener("click", function(e) {
-    handleButtonClick('column2', e, id => `whoniversechecklist.com/api/options/${id}`);
+    handleButtonClick('column2', e, id => `whoniverse-checklist.onrender.com/api/options/${id}`);
 });
 
 document.getElementById("column2").addEventListener("click", function(e) {
-    handleButtonClick('column3', e, id => `whoniversechecklist.com/api/seasons/${id}`);
+    handleButtonClick('column3', e, id => `whoniverse-checklist.onrender.com/api/seasons/${id}`);
 });
 
 document.getElementById("column3").addEventListener("click", function(e) {
-    handleButtonClick('column4', e, id => `whoniversechecklist.com/api/episodes/${id}`);
+    handleButtonClick('column4', e, id => `whoniverse-checklist.onrender.com/api/episodes/${id}`);
 });
 
 document.getElementById("column4").addEventListener("click", async function(e) {
     if (e.target.tagName.toLowerCase() === "button") {
         const id_episode = e.target.dataset.id;
-        let url = 'whoniversechecklist.com/api/episode_watched';
+        let url = 'whoniverse-checklist.onrender.com/api/episode_watched';
         if (e.target.classList.contains('episode-seen')) {
             e.target.classList.remove('episode-seen');
-            url = 'whoniversechecklist.com/api/episode_unwatched';
+            url = 'whoniverse-checklist.onrender.com/api/episode_unwatched';
         } else {
             e.target.classList.add('episode-seen');
         }
@@ -58,7 +58,7 @@ function handleButtonClick(columnId, e, nextUrl) {
                 }
             } else {
                 // El usuario no está autenticado, redirigir a la página de inicio de sesión
-                window.location.href = 'whoniversechecklist.com/login';
+                window.location.href = 'whoniverse-checklist.onrender.com/login';
             }
         }).catch(error => {
             console.error('Error in checking login status:', error);
@@ -67,7 +67,7 @@ function handleButtonClick(columnId, e, nextUrl) {
 }
 
 async function checkLoginStatus() {
-    const response = await fetch('whoniversechecklist.com/check_login', {
+    const response = await fetch('whoniverse-checklist.onrender.com/check_login', {
         credentials: 'include'
     });
     const data = await response.json();
@@ -76,7 +76,7 @@ async function checkLoginStatus() {
 
 async function getWatchedEpisodes() {
     try {
-        const response = await fetch('whoniversechecklist.com/api/episodes_watched', {
+        const response = await fetch('whoniverse-checklist.onrender.com/api/episodes_watched', {
             credentials: 'include'
         });
         return await response.json();
