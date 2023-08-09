@@ -1,6 +1,7 @@
 import os
-import pandas as pd
-from sqlalchemy import create_engine
+import csv
+from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
+from sqlalchemy.orm import relationship
 from flask import Flask, render_template, redirect, session, url_for, request, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
