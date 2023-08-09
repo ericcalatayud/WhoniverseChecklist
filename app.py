@@ -31,16 +31,16 @@ print(f"Engine Details: {engine}")
 categories_df = pd.read_csv('lists/categories.csv', delimiter=';')
 print(categories_df.head())
 
-categories_df.to_sql('categories', engine, if_exists='replace', schema=None)
+categories_df.to_sql('categories', engine, if_exists='replace')
 
 options_df = pd.read_csv('lists/options.csv', delimiter=';')
-options_df.to_sql('options', engine, if_exists='replace', schema=None)
+options_df.to_sql('options', engine, if_exists='replace')
 
 seasons_df = pd.read_csv('lists/seasons.csv', delimiter=';')
-seasons_df.to_sql('seasons', engine, if_exists='replace', schema=None)
+seasons_df.to_sql('seasons', engine, if_exists='replace')
 
 episodes_df = pd.read_csv('lists/episodes.csv', delimiter=';')
-episodes_df.to_sql('episodes', engine, if_exists='replace', schema=None)
+episodes_df.to_sql('episodes', engine, if_exists='replace')
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
