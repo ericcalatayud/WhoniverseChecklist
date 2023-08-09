@@ -24,7 +24,13 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
+print(f"Connecting to {connection_string}")
+print(f"Engine Details: {engine}")
+
+
 categories_df = pd.read_csv('lists/categories.csv', delimiter=';')
+print(categories_df.head())
+
 categories_df.to_sql('categories', engine, if_exists='replace', schema=None)
 
 options_df = pd.read_csv('lists/options.csv', delimiter=';')
