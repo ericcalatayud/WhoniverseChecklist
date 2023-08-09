@@ -60,16 +60,6 @@ class EpisodesWatched(db.Model):
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     id_episode = db.Column(db.String(25), nullable=False)
 
-import csv
-
-def load_csv_to_db(filename, model):
-    with open(filename, newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            record = model(**row)
-            db.session.add(record)
-        db.session.commit()
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -183,12 +173,5 @@ def unmark_episode_watched():
         return jsonify({"status": "error", "message": "Episode not found"}), 404
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        
-        load_csv_to_db('lists/categories.csv', Category)
-        load_csv_to_db('lists/options.csv', Option)
-        load_csv_to_db('lists/seasons.csv', Season)
-        load_csv_to_db('lists/episodes.csv', Episode)
-        
+    with app.app_context():        
         app.run(debug=True)
