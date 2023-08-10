@@ -69,7 +69,7 @@ def is_user_logged_in():
 @app.route('/')
 def index():
     if is_user_logged_in():
-        return redirect('whoniverse.html')
+        return redirect(url_for('whoniverse'))
     else:
         return redirect(url_for('login'))
     
