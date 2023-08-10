@@ -127,12 +127,12 @@ def logout():
 def whoniverse():
     return render_template('whoniverse.html')
 
-@app.route('/api/options/<category_id>')
+@app.route('/api/options/<int:category_id>')
 @login_required
 def get_options(category_id):
     with engine.connect() as con:
-        query = f"SELECT * FROM options WHERE id_category = {category_id}"
-        result = con.execute(query)
+        query = f"SELECT * FROM options WHERE id_category = :category_id"
+        result = con.execute(query, category_id=category_id)
 
         options = [dict(row) for row in result]
         return jsonify(options)
