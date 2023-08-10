@@ -126,10 +126,10 @@ def logout():
 def whoniverse():
     return render_template('whoniverse.html')
 
-@app.route('/api/options/<category_id>')
+@app.route('/api/options/<category_id>') 
 def get_options(category_id):
   query = text("SELECT * FROM options WHERE id_category = :id_category")
-  result = con.execute(query, category_id)
+  result = db.session.execute(query, category_id)  
   options = [dict(row) for row in result]
   return jsonify(options)
 
@@ -138,7 +138,7 @@ def get_options(category_id):
 def get_seasons(option_id):
     with engine.connect() as con:
         query = text("SELECT * FROM seasons WHERE id_option = :id_option")
-        result = con.execute(query, id_option=option_id)
+        result = db.session.execute(query, id_option=option_id)
 
         seasons = [dict(row) for row in result]
         return jsonify(seasons)
@@ -148,7 +148,7 @@ def get_seasons(option_id):
 def get_episodes(season_id):
     with engine.connect() as con:
         query = text("SELECT * FROM episodes WHERE id_season = :id_season")
-        result = con.execute(query, id_season=season_id)
+        result = db.session.execute(query, id_season=season_id)
 
         episodes = [dict(row) for row in result]
         return jsonify(episodes)
