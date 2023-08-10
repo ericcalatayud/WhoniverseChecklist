@@ -128,30 +128,38 @@ def whoniverse():
 
 @app.route('/api/options/<category_id>') 
 def get_options(category_id):
-  query = text("SELECT * FROM options WHERE id_category = :id_category")
-  result = db.session.execute(query, category_id)  
-  options = [dict(row) for row in result]
-  return jsonify(options)
+    query = text("")
+    result = db.session.execute(query, category_id)  
+    options = [dict(row) for row in result]
+    return jsonify(options)
+
+Session = sessionmaker(bind=engine)
+
+@app.route('/api/options/<category_id>')
+def get_options(category_id):
+    session = Session()
+    query = text("SELECT * FROM options WHERE id_category = :id_category")
+    result = session.execute(query, category_id)
+    session.close()
+    return jsonify(options)
 
 @app.route('/api/seasons/<option_id>')
 @login_required
 def get_seasons(option_id):
-    with engine.connect() as con:
-        query = text("SELECT * FROM seasons WHERE id_option = :id_option")
-        result = db.session.execute(query, id_option=option_id)
-
-        seasons = [dict(row) for row in result]
-        return jsonify(seasons)
+    session = Session()
+    query = text("SELECT * FROM seasons WHERE id_option = :id_option")
+    result = session.execute(query, option_id)
+    session.close()
+    return jsonify(seasons)
 
 @app.route('/api/episodes/<season_id>')
 @login_required
 def get_episodes(season_id):
-    with engine.connect() as con:
-        query = text("SELECT * FROM episodes WHERE id_season = :id_season")
-        result = db.session.execute(query, id_season=season_id)
-
-        episodes = [dict(row) for row in result]
-        return jsonify(episodes)
+    session = Session()
+    query = text("SELECT * FROM episodes WHERE id_season = :id_season")
+    result = session.execute(query, season_id)
+    session.close()
+    return jsonify(episodes)
 
 @app.route('/api/episode_watched', methods=['POST'])
 @login_required
