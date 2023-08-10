@@ -1,6 +1,5 @@
 import os
 import csv
-import pandas as pd
 from sqlalchemy import Column, Integer, String, text, ForeignKey, create_engine
 from sqlalchemy.orm import relationship
 from flask import Flask, render_template, redirect, session, url_for, request, flash, jsonify
@@ -127,12 +126,12 @@ def logout():
 def whoniverse():
     return render_template('whoniverse.html')
 
-@app.route('/api/options/<int:category_id>')
+@app.route('/api/options/<category_id>')
 @login_required
 def get_options(category_id):
     with engine.connect() as con:
-        query = f"SELECT * FROM options WHERE id_category = :category_id"
-        result = con.execute(query, category_id=category_id)
+        query = f"SELECT * FROM options WHERE id_category = {category_id}"
+        result = con.execute(query)
 
         options = [dict(row) for row in result]
         return jsonify(options)
