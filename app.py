@@ -131,8 +131,8 @@ def whoniverse():
 @login_required
 def get_options(category_id):
     with engine.connect() as con:
-        query = text("SELECT * FROM options WHERE id_category = :category_id")
-        result = con.execute(query, category_id=category_id)
+        query = f"SELECT * FROM options WHERE id_category = {category_id}"
+        result = con.execute(query)
 
         options = [dict(row) for row in result]
         return jsonify(options)
@@ -141,8 +141,8 @@ def get_options(category_id):
 @login_required
 def get_seasons(option_id):
     with engine.connect() as con:
-        query = text("SELECT * FROM seasons WHERE id_option = :option_id")
-        result = con.execute(query, option_id=option_id)
+        query = f"SELECT * FROM seasons WHERE id_option = {option_id}"
+        result = con.execute(query)
 
         seasons = [dict(row) for row in result]
         return jsonify(seasons)
@@ -151,8 +151,8 @@ def get_seasons(option_id):
 @login_required
 def get_episodes(season_id):
     with engine.connect() as con:
-        query = text("SELECT * FROM episodes WHERE id_season = :season_id")
-        result = con.execute(query, season_id=season_id)
+        query = f"SELECT * FROM episodes WHERE id_season = {season_id}"
+        result = con.execute(query)
 
         episodes = [dict(row) for row in result]
         return jsonify(episodes)
