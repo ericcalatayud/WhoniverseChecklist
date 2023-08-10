@@ -126,13 +126,6 @@ def logout():
 def whoniverse():
     return render_template('whoniverse.html')
 
-@app.route('/api/options/<category_id>') 
-def get_options(category_id):
-    query = text("")
-    result = db.session.execute(query, category_id)  
-    options = [dict(row) for row in result]
-    return jsonify(options)
-
 Session = sessionmaker(bind=engine)
 
 @app.route('/api/options/<category_id>')
