@@ -130,29 +130,32 @@ def whoniverse():
 @app.route('/api/options/<category_id>')
 @login_required
 def get_options(category_id):
-    query = text("SELECT * FROM options WHERE id_category = :category_id")
-    result = engine.execute(query, category_id=category_id)
+    with engine.connect() as con:
+        query = text("SELECT * FROM options WHERE id_category = :category_id")
+        result = con.execute(query, category_id=category_id)
 
-    options = [dict(row) for row in result]
-    return jsonify(options)
+        options = [dict(row) for row in result]
+        return jsonify(options)
 
 @app.route('/api/seasons/<option_id>')
 @login_required
 def get_seasons(option_id):
-    query = text("SELECT * FROM seasons WHERE id_option = :option_id")
-    result = engine.execute(query, option_id=option_id)
+    with engine.connect() as con:
+        query = text("SELECT * FROM seasons WHERE id_option = :option_id")
+        result = con.execute(query, option_id=option_id)
 
-    seasons = [dict(row) for row in result]
-    return jsonify(seasons)
+        seasons = [dict(row) for row in result]
+        return jsonify(seasons)
 
 @app.route('/api/episodes/<season_id>')
 @login_required
 def get_episodes(season_id):
-    query = text("SELECT * FROM episodes WHERE id_season = :season_id")
-    result = engine.execute(query, season_id=season_id)
+    with engine.connect() as con:
+        query = text("SELECT * FROM episodes WHERE id_season = :season_id")
+        result = con.execute(query, season_id=season_id)
 
-    episodes = [dict(row) for row in result]
-    return jsonify(episodes)
+        episodes = [dict(row) for row in result]
+        return jsonify(episodes)
 
 @app.route('/api/episode_watched', methods=['POST'])
 @login_required
