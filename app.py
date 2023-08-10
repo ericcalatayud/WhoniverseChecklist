@@ -1,7 +1,7 @@
 import os
 import csv
 from sqlalchemy import Column, Integer, String, text, ForeignKey, create_engine
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, sessionmaker
 from flask import Flask, render_template, redirect, session, url_for, request, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
