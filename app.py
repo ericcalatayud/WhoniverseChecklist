@@ -1,7 +1,7 @@
 import os
 import csv
 import pandas as pd
-from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
+from sqlalchemy import Column, Integer, String, text, ForeignKey, create_engine
 from sqlalchemy.orm import relationship
 from flask import Flask, render_template, redirect, session, url_for, request, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -130,20 +130,29 @@ def whoniverse():
 @app.route('/api/options/<category_id>')
 @login_required
 def get_options(category_id):
-    options = pd.read_sql(f'select * from options where id_category="{category_id}"', engine)
-    return jsonify(options.to_dict(orient='records'))
+    query = text("SELECT * FROM options WHERE id_category = :category_id")
+    result = engine.execute(query, category_id=category_id)
+
+    options = [dict(row) for row in result]
+    return jsonify(options)
 
 @app.route('/api/seasons/<option_id>')
 @login_required
 def get_seasons(option_id):
-    seasons = pd.read_sql(f'select * from seasons where id_option="{option_id}"', engine)
-    return jsonify(seasons.to_dict(orient='records'))
+    query = text("SELECT * FROM seasons WHERE id_option = :option_id")
+    result = engine.execute(query, option_id=option_id)
+
+    seasons = [dict(row) for row in result]
+    return jsonify(seasons)
 
 @app.route('/api/episodes/<season_id>')
 @login_required
 def get_episodes(season_id):
-    episodes = pd.read_sql(f'select * from episodes where id_season="{season_id}"', engine)
-    return jsonify(episodes.to_dict(orient='records'))
+    query = text("SELECT * FROM episodes WHERE id_season = :season_id")
+    result = engine.execute(query, season_id=season_id)
+
+    episodes = [dict(row) for row in result]
+    return jsonify(episodes)
 
 @app.route('/api/episode_watched', methods=['POST'])
 @login_required
