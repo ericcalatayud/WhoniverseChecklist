@@ -127,14 +127,11 @@ def whoniverse():
     return render_template('whoniverse.html')
 
 @app.route('/api/options/<category_id>')
-@login_required
 def get_options(category_id):
-    with engine.connect() as con:
-        query = text("SELECT * FROM options WHERE id_category = :id_category")
-        result = con.execute(query, id_category=category_id)
-
-        options = [dict(row) for row in result]
-        return jsonify(options)
+  query = text("SELECT * FROM options WHERE id_category = :id_category")
+  result = con.execute(query, category_id)
+  options = [dict(row) for row in result]
+  return jsonify(options)
 
 @app.route('/api/seasons/<option_id>')
 @login_required
